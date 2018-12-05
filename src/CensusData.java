@@ -1,5 +1,4 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URL;
 import java.util.HashMap;
 
@@ -9,21 +8,22 @@ public class CensusData {
 
         //Read from the URL
         URL census = new URL("https://www2.census.gov/topics/genealogy/1990surnames/dist.all.last");
-        BufferedReader in = new BufferedReader(new InputStreamReader(census.openStream()));
-        int i = 0;
+        BufferedReader censusStream = new BufferedReader(new InputStreamReader(census.openStream()));
+//        int i = 0;
         String inputLine;
         Surname newSurname = new Surname();
-        Surname testSurname = new Surname();
-        HashMap<String, Surname> surnameHashMap = new HashMap<>();
+//        Surname testSurname = new Surname();
+        HashMap<String, Surname> surnameHashMap = new HashMap<String, Surname>();
         String surname;
         double frequency;
         int rank;
-        while ((inputLine = in.readLine()) != null) {
-            System.out.println("#####");
-            System.out.print("Line# ");
-            System.out.println(i);
-            i++;
-            System.out.println(inputLine);
+        //create Surname object for each row in the file
+        while ((inputLine = censusStream.readLine()) != null) {
+//            System.out.println("#####");
+//            System.out.print("Line# ");
+//            System.out.println(i);
+//            i++;
+//            System.out.println(inputLine);
             String regexInput = inputLine.replaceAll("\\s+", "\\\t");
             String [] split = regexInput.split("\\t");
 //            System.out.println(split.length);
@@ -34,30 +34,32 @@ public class CensusData {
             newSurname.setFrequency(frequency);
             newSurname.setRank(rank);
 //            System.out.println("#####");
-            System.out.println("Surname: " + newSurname.getSurname());
-            System.out.println("Frequency: " + newSurname.getFrequency());
-            System.out.println("Rank: " + newSurname.getRank());
+//            System.out.println("Surname: " + newSurname.getSurname());
+//            System.out.println("Frequency: " + newSurname.getFrequency());
+//            System.out.println("Rank: " + newSurname.getRank());
+            //add the Surname object to a HashMap using the Surname as the key
             surnameHashMap.put(surname, newSurname);
-            testSurname = surnameHashMap.get(surname);
-            System.out.println("Test Surname: " + testSurname.getSurname());
-            System.out.println("Test Frequency: " + testSurname.getFrequency());
-            System.out.println("Test Rank: " + testSurname.getRank());
+//            testSurname = surnameHashMap.get(surname);
+//            System.out.println("Test Surname: " + testSurname.getSurname());
+//            System.out.println("Test Frequency: " + testSurname.getFrequency());
+//            System.out.println("Test Rank: " + testSurname.getRank());
 //            for(int j = 0; j < split.length;j++){
 //                System.out.println("#####");
 //                System.out.println(split[j]);
 //            }
-            Thread.sleep(1000);
+//            Thread.sleep(1000);
         }
-        in.close();
-
-
-
-        //create Surname object for each row in the file
-
-        //add the Surname object to a HashMap using the Surname as the key
+        censusStream.close();
 
         //Serialize the HashMap to ./surname.dat
+        try{
 
 
+        ObjectOutputStream HashMapSerialization = new ObjectOutputStream(new FileOutputStream("surname.dat"));
+
+        HashMapSerialization.writeObject(surnameHashMap);
+        HashMapSerialization.close();}catch(IOException ioe){
+            ioe.printStackTrace();
+        }
     }
 }

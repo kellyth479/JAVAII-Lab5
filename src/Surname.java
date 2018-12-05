@@ -1,6 +1,8 @@
 //Surname class that holds a surname, the frequency of that surname and the rank of that surname
 
-public class Surname {
+import java.io.Serializable;
+
+public class Surname implements Serializable{
     private String Surname;
     private double frequency;
     private int rank;
@@ -28,6 +30,14 @@ public class Surname {
 
     public void setFrequency(double frequency) {
         this.frequency = frequency;
+    }
+
+    public void printMe(){
+        System.out.println("#########");
+        System.out.println(Surname);
+        System.out.println(frequency);
+        System.out.println(rank);
+        System.out.println("#########");
     }
 
 }
