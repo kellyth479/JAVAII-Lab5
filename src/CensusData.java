@@ -11,7 +11,7 @@ public class CensusData {
         BufferedReader censusStream = new BufferedReader(new InputStreamReader(census.openStream()));
 //        int i = 0;
         String inputLine;
-        Surname newSurname = new Surname();
+//        Surname newSurname = new Surname();
 //        Surname testSurname = new Surname();
         HashMap<String, Surname> surnameHashMap = new HashMap<String, Surname>();
         String surname;
@@ -19,6 +19,7 @@ public class CensusData {
         int rank;
         //create Surname object for each row in the file
         while ((inputLine = censusStream.readLine()) != null) {
+            Surname newSurname = new Surname();
 //            System.out.println("#####");
 //            System.out.print("Line# ");
 //            System.out.println(i);
